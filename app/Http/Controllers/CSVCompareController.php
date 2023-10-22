@@ -4,37 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CSVUploadRequest;
 use App\Services\CSVCompareService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use League\Csv\Exception;
-use League\Csv\InvalidArgument;
-use League\Csv\UnavailableStream;
 
 class CSVCompareController extends Controller
 {
-    protected $service;
 
-    public function __construct(CSVCompareService $service)
-    {
-        $this->service = $service;
+    public function __construct(
+        protected CSVCompareService $service
+    ) {
     }
 
+    /**
+     * Show the initial index page.
+     */
     public function index()
     {
         return view('index');
     }
 
     /**
-     * @throws InvalidArgument
-     * @throws UnavailableStream
-     * @throws Exception
+     * Handle the uploaded CSV files, compare them and show the comparison results.
+     *
+     * @param CSVUploadRequest $request The validated request containing the uploaded CSV files.
+     *
+     * @return View|RedirectResponse
+     *         The result view with the comparison data or a redirect back with error messages.
      */
-    public function uploadFiles(CSVUploadRequest $request)
+    public function uploadFiles(CSVUploadRequest $request): View|RedirectResponse
     {
-        $oldCsv = $request->file('old_csv');
-        $newCsv = $request->file('new_csv');
-        $csvComparison = $this->service->compare($oldCsv, $newCsv);
-        if ($csvComparison == null) {
-            return redirect()->back()->withErrors(['Problem validating the CSV. Please check your headers']);
+        try {
+            $oldCsv = $request->file('old_csv');
+            $newCsv = $request->file('new_csv');
+
+            $csvComparison = $this->service->compare($oldCsv, $newCsv);
+
+            return view('result', compact('csvComparison'));
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            return redirect()->back()->withErrors($errorMessage);
         }
-        return view('result', compact('csvComparison'));
     }
 }
