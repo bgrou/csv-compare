@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CSVCompareController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::post('/upload', []);
+Route::get('/', [CSVCompareController::class, 'index'])->name('index');
+Route::post('/upload_files', [CSVCompareController::class, 'uploadFiles'])->name('uploadFiles');
