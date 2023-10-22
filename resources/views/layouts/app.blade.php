@@ -13,7 +13,7 @@
         <style>
             body {
                 padding: 20px;
-                font-size: 12px;
+                font-size: 14px;
             }
 
             .new {
