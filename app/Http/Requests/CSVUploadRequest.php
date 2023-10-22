@@ -22,8 +22,8 @@ class CSVUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'old_csv' => 'required|mimes:csv,txt|max:150000',
-            'new_csv' => 'required|mimes:csv,txt|max:150000'
+            'old_csv' => 'required|mimes:csv,txt|max:500',
+            'new_csv' => 'required|mimes:csv,txt|max:500'
         ];
     }
 }
