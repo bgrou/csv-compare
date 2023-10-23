@@ -13,7 +13,7 @@ Follow these steps to install.
     php artisan serve
 
 ## Docs
-https://bgrou.github.io/index.php
+https://bgrou.github.io
 
 ## Task
 Task description coming soon...
