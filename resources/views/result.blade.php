@@ -32,7 +32,7 @@
                             <td
                                 @if(isset($record['diffs'][$key]))
                                     title="{{ "Old Value: " . $value }}"
-                                class="alter"
+                                style="background-color: #a7c7e7"
                                 @endif
                             >
                                 {{ isset($record['diffs'][$key]) ? $record['diffs'][$key] : $value }}
